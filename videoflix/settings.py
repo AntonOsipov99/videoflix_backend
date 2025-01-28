@@ -53,6 +53,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 ROOT_URLCONF = 'videoflix.urls'
 
 TEMPLATES = [
