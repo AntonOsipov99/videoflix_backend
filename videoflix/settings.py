@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-92h3!pf2u66dyog3=*#ohesj5(%$1(q7jr@5+5umnm(q6xh%ra
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.65.84.60']
+ALLOWED_HOSTS = ['34.65.84.60', 'backend.anton-videoflix-server.de']
 
 
 # Application definition
