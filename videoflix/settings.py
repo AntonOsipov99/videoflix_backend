@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'auth_app',
     'rest_framework',
     'debug_toolbar',
+    'django_rq',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +75,15 @@ INTERNAL_IPS = [
     '127.0.0.1',
     'backend.anton-videoflix-server.de'
 ]
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+        'DEFAULT_TIMEOUT': 360,
+    }
+}
 
 CORS_ALLOW_ALL_ORIGINS = True
 
