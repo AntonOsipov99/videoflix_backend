@@ -79,6 +79,7 @@ INTERNAL_IPS = [
 RQ_QUEUES = {
     'default': {
         'HOST': 'localhost',
+        'PASSWORD': 'foobared',
         'PORT': 6379,
         'DB': 0,
         'DEFAULT_TIMEOUT': 360,
