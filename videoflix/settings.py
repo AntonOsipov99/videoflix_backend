@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['backend.anton-videoflix-server.de', '127.0.0.1', '34.65.61.13']
+ALLOWED_HOSTS = ['backend.anton-videoflix-server.de', '127.0.0.1']
 
 
 # Application definition
@@ -75,7 +75,6 @@ CACHE_TTL = 60 * 15
 INTERNAL_IPS = [
     '127.0.0.1',
     'backend.anton-videoflix-server.de',
-    '34.65.61.13' 
 ]
 
 RQ_QUEUES = {
