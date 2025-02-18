@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'auth_app',
     'rest_framework',
     'debug_toolbar',
-    'django_rq',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [
@@ -77,19 +77,26 @@ INTERNAL_IPS = [
     'backend.anton-videoflix-server.de',
 ]
 
-RQ_QUEUES = {
-    'default': {
-        'HOST': 'localhost',
-        'PASSWORD': 'foobared',
-        'PORT': 6379,
-        'DB': 0,
-        'DEFAULT_TIMEOUT': 360,
-        'NUMBER_OF_WORKERS': 3,
-    }
-}
+# RQ_QUEUES = {
+#     'default': {
+#         'HOST': 'localhost',
+#         'PASSWORD': 'foobared',
+#         'PORT': 6379,
+#         'DB': 0,
+#         'DEFAULT_TIMEOUT': 360,
+#         'NUMBER_OF_WORKERS': 3,
+#     }
+# }
 
-DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000 
-FILE_UPLOAD_MAX_MEMORY_SIZE = 524288000
+# DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000 
+# FILE_UPLOAD_MAX_MEMORY_SIZE = 524288000
+
+CELERY_BROKER_URL = 'redis://:foobared@localhost:6379/0'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 CORS_ALLOW_ALL_ORIGINS = True
 
