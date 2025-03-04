@@ -24,6 +24,7 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('videoflix_app.api.urls')),
+    path('api/auth/', include('user_auth_app.api.urls')),
     # path('django-rq/', include('django_rq.urls')),
   ]
 # ]   + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) + staticfiles_urlpatterns()
