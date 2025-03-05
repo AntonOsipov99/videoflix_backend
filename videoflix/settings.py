@@ -95,10 +95,16 @@ INTERNAL_IPS = [
 # FILE_UPLOAD_MAX_MEMORY_SIZE = 524288000
 
 CELERY_BROKER_URL = 'redis://:foobared@localhost:6379/0'
-CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_BACKEND = 'redis://:foobared@localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+# Configure specific queues for video processing
+CELERY_TASK_ROUTES = {
+    'videos.tasks.process_video': {'queue': 'video_processing'},
+}
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 CORS_ALLOW_ALL_ORIGINS = True

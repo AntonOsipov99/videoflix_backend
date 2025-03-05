@@ -11,6 +11,9 @@ class Movie(models.Model):
     video_file = models.FileField(upload_to='videos', blank=True, null=True)
     genre = models.CharField(max_length=200, blank=True, null=True)
     image = models.FileField(upload_to='images', blank=True, null=True)
+    is_processed = models.BooleanField(default=False)
+    available_resolutions = models.JSONField(null=True, blank=True)
+    hls_manifest = models.CharField(max_length=255, blank=True, null=True)
     
     def __str__(self):
         return self.title

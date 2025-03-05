@@ -2,14 +2,12 @@ from videoflix_app.models import Movie
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 import os
-from .tasks import convert_480p
+from .tasks import process_video
 
 @receiver(post_save, sender=Movie)
 def movie_post_save(sender, instance, created, **kwargs):
-    print('Video wurde gespeichert')
-    if created:
-        convert_480p.delay(instance.video_file.path)
-        print('New video created')
+    if created and instance.video_file:
+        process_video.delay(instance.id)
         
 @receiver(post_delete, sender=Movie)
 def auto_delete_file_on_delete(sender, instance, **kwargs):
