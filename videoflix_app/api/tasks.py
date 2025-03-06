@@ -26,8 +26,6 @@ def prepare_video_processing(movie_id, source_path):
     """Prepare directories and variables for video processing"""
     filename = os.path.basename(source_path)
     name, _ = os.path.splitext(filename)
-    
-    # Create output directory for this movie
     output_dir = os.path.join(settings.MEDIA_ROOT, 'videos', str(movie_id))
     os.makedirs(output_dir, exist_ok=True)
     
@@ -77,7 +75,6 @@ def should_skip_resolution(source_dims, target_resolution):
     Returns True if source is SMALLER than target (should skip)
     """
     target_width, target_height = map(int, target_resolution.split('x'))
-    # Nur überspringen, wenn Zielauflösung GRÖSSER als Original ist
     is_target_larger = source_dims['width'] < target_width or source_dims['height'] < target_height
     print(f"Source: {source_dims}, Target: {target_width}x{target_height}, Skip: {is_target_larger}")
     return is_target_larger
@@ -142,8 +139,7 @@ def create_hls_manifest(setup_info, available_resolutions):
         
         for res in available_resolutions:
             create_hls_segments(setup_info, res)
-            
-            # Add this resolution to the master playlist
+
             f.write(f"#EXT-X-STREAM-INF:BANDWIDTH={res_map[res]['bandwidth']},RESOLUTION={res_map[res]['resolution']}\n")
             f.write(f"{res}/playlist.m3u8\n")
     
@@ -184,7 +180,6 @@ def finalize_processing(movie, setup_info, available_resolutions):
     manifest_path = create_hls_manifest(setup_info, available_resolutions)
     relative_path = os.path.relpath(manifest_path, settings.MEDIA_ROOT)
     
-    # Update movie with available resolutions and manifest
     movie.available_resolutions = available_resolutions
     movie.hls_manifest = relative_path
     movie.is_processed = True
