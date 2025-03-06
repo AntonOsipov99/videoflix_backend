@@ -100,6 +100,7 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
+# CELERY_IMPORTS = ('videoflix_app.api.tasks',)
 
 # Configure specific queues for video processing
 CELERY_TASK_ROUTES = {
