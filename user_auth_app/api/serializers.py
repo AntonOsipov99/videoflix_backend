@@ -19,33 +19,61 @@ class LoginSerializer(serializers.Serializer):
 
         if user.check_password(password):
             token, created = Token.objects.get_or_create(user=user)
-            return {'token': token.key}
+            return {'token': token.key, 'is_active': user.is_active}
         else:
             raise serializers.ValidationError("Incorrect password")
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    repeated_password = serializers.CharField(write_only= True)
-
+    repeated_password = serializers.CharField(write_only=True)
+    
     class Meta:
         model = User
         fields = ['email', 'password', 'repeated_password']
         extra_kwargs = {
             'password': {'write_only': True}
         }
-        
+    
+    def validate(self, data):
+        if data['password'] != data['repeated_password']:
+            raise serializers.ValidationError(
+                {'error': 'Please check your entries and try again.'}
+            )
+        return data
+    
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("This email address is already registered.")
+            raise serializers.ValidationError(
+                "Please check your entries and try again."
+            )
         return value
-        
+    
     def save(self):
-        pw = self.validated_data['password']
-        repeated_pw = self.validated_data['repeated_password']
-        
-        if pw != repeated_pw:
-            raise serializers.ValidationError({'error': 'passwords dont match'})
-        
-        account = User(username=self.validated_data['email'], email=self.validated_data['email'])
-        account.set_password(pw)
+        account = User(
+            username=self.validated_data['email'], 
+            email=self.validated_data['email'],
+            is_active=False
+        )
+        account.set_password(self.validated_data['password'])
         account.save()
+        
         return account
+    
+class ForgotPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    
+    def validate_email(self, value):
+        try:
+            User.objects.get(email=value)
+        except User.DoesNotExist:
+            raise serializers.ValidationError('Please check your entries and try again.')
+        return value
+
+class ResetPasswordSerializer(serializers.Serializer):
+    token = serializers.UUIDField()
+    password = serializers.CharField(min_length=1, write_only=True)
+    confirm_password = serializers.CharField(min_length=1, write_only=True)
+    
+    def validate(self, data):
+        if data['password'] != data['confirm_password']:
+            raise serializers.ValidationError("Passwords do not match")
+        return data
