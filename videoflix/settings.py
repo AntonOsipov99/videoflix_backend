@@ -80,29 +80,13 @@ INTERNAL_IPS = [
     'backend.anton-videoflix-server.de',
 ]
 
-# RQ_QUEUES = {
-#     'default': {
-#         'HOST': 'localhost',
-#         'PASSWORD': 'foobared',
-#         'PORT': 6379,
-#         'DB': 0,
-#         'DEFAULT_TIMEOUT': 360,
-#         'NUMBER_OF_WORKERS': 3,
-#     }
-# }
-
-# DATA_UPLOAD_MAX_MEMORY_SIZE = 524288000 
-# FILE_UPLOAD_MAX_MEMORY_SIZE = 524288000
-
 CELERY_BROKER_URL = 'redis://:foobared@localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://:foobared@localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
-# CELERY_IMPORTS = ('videoflix_app.api.tasks',)
 
-# Configure specific queues for video processing
 CELERY_TASK_ROUTES = {
     'videos.tasks.process_video': {'queue': 'video_processing'},
 }
